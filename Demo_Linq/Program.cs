@@ -1,7 +1,5 @@
 using Demo_Linq;
 using Demo_Linq.Models;
-using System.Collections;
-using System.Drawing;
 
 Console.WriteLine("Demo LinQ");
 
@@ -52,7 +50,7 @@ var r1 = da.Authors.Where(a => a.DeathDate == null)
                    .Select(a => new { Nom = a.LastName, Prenom = a.FirstName });
 
 Console.WriteLine("Liste des personnes vivants : ");
-foreach(var a in r1)
+foreach (var a in r1)
 {
     Console.WriteLine(a);
 }
@@ -73,7 +71,7 @@ Console.WriteLine();
 
 // Liste des différentes couleurs de theme de bibliotheque
 var r3 = (from s in da.Shelves
-         select new { s.Color }).Distinct();
+          select new { s.Color }).Distinct();
 
 Console.WriteLine("Liste des couleur: ");
 foreach (var couleur in r3)
@@ -88,12 +86,12 @@ var r4 = (from a in da.Authors
           orderby a.BirthDate
           select new { a.FirstName, a.LastName }).First();
 
-Console.WriteLine("l'auteur vivant le plus vieux: "+ r4);
+Console.WriteLine("l'auteur vivant le plus vieux: " + r4);
 Console.WriteLine();
 
 // Afficher l'age de l'auteur le plus agé (vivant ou mort)
 var r5 = (from a in da.Authors
-         select (a.DeathDate ?? DateTime.Today).Year  - a.BirthDate.Year).Max();
+          select (a.DeathDate ?? DateTime.Today).Year - a.BirthDate.Year).Max();
 
 var r5_2 = da.Authors.Max(a => (a.DeathDate ?? DateTime.Today).Year - a.BirthDate.Year);
 
@@ -106,7 +104,16 @@ var r6 = from a in da.Authors
          where (a.DeathDate ?? DateTime.Today).Year - a.BirthDate.Year == age
          select a;
 
-foreach(var a in r6)
+foreach (var a in r6)
 {
     Console.WriteLine(a);
 }
+
+// - Version bonus
+var temp = da.Authors.Select(a => new
+{
+    a.FirstName,
+    a.LastName,
+    age = (a.DeathDate ?? DateTime.Today).Year - a.BirthDate.Year
+});
+var r7 = temp.Where(a => a.age == temp.Min(p => p.age));
