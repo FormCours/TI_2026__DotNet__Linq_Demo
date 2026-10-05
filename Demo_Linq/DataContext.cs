@@ -307,7 +307,6 @@ namespace Demo_Linq
         {
             bookAuthors.AddRange(
             [
-                // Design Patterns : quatre coauteurs (le Gang of Four)
                 new BookAuthor(1, 39),
                 new BookAuthor(1, 40),
                 new BookAuthor(1, 41),
